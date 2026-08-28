@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/controllers/audio_controller.dart';
-import 'screens/splash_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/theme/app_theme.dart';
+import 'features/profile/presentation/controllers/settings_controller.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 
 void main() {
-  runApp(MusicApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(
+    const ProviderScope(
+      child: AuralisApp(),
+    ),
+  );
 }
 
-class MusicApp extends StatelessWidget {
-  final AudioController audioController = AudioController();
-
-  MusicApp({super.key});
+class AuralisApp extends ConsumerWidget {
+  const AuralisApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settingsState = ref.watch(settingsControllerProvider);
+
     return MaterialApp(
-      title: 'Vibes',
+      title: 'Auralis',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(audioController: audioController),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: settingsState.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: const SplashScreen(),
     );
   }
 }
