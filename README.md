@@ -1,92 +1,76 @@
-# 🎵 Vibes — Flutter Music Player
+# 🎧 Auralis — Flutter Music Player
 
-Vibes is a modern music player mobile application built with Flutter.  
-The app provides a clean and premium music-listening experience with dark/light mode, local audio playback, animated UI elements, and a dedicated music player screen.
+Auralis is a modern music player application built with **Flutter and Dart**. The project focuses on creating a clean music-listening experience with custom UI, local audio playback, smooth interactions, and reusable Flutter components.
 
----
-
-## 📱 About The Project
-
-Vibes is a Flutter-based music player designed to demonstrate how to build a modern music application with:
-
-- Local audio playback
-- Song and artist information
-- Album artwork
-- Play/Pause controls
-- Dedicated song player screen
-- Dark and Light mode
-- Animated music indicators
-- Responsive and modern UI
-
-The project is built as a learning and portfolio project while exploring Flutter application architecture and audio handling.
+I built this project to improve my understanding of **Flutter UI development, audio playback, state management, navigation, animations, and reusable architecture**.
 
 ---
 
 ## ✨ Features
 
-### 🎧 Music Playback
-- Play songs directly from the Home Screen
-- Pause the currently playing song
-- Play another song while the previous one stops
-- Resume playback
-- Stop playback
-- Detect when a song finishes
-
-### 🎨 Dark & Light Mode
-- Dark mode with a premium purple gradient aesthetic
-- Light mode with a clean minimal design
-- Theme-aware text, icons, cards, and backgrounds
-- Custom dark/light UI styling
-
-### 🏠 Home Screen
-- Welcome section
-- Dark/Light mode switch
-- Playlist/album section
-- Latest songs list
-- Album artwork
-- Song title and artist
-- Animated equalizer indicator for the currently playing song
-
-### 🎵 Song Screen
-- Large album artwork
-- Song title
-- Artist name
-- Playback controls
-- Music progress slider
-- Dedicated player interface
-
-### 🎬 Splash Screen
-- Animated Lottie splash screen
-- Animated app title
-- Fade and slide animations
-- Smooth transition to the Home Screen
+* 🎵 Local music playback
+* ▶️ Play and pause songs
+* ⏭️ Next and previous song controls
+* 🎚️ Music progress slider
+* 🎨 Modern dark-themed UI
+* 🖼️ Album artwork support
+* ✨ Animated UI elements
+* 🎧 Centralized audio controller
+* 🔄 Audio controller shared between screens
+* 📱 Clean and responsive interface
+* ⚡ Smooth screen navigation
+* 💫 Lottie splash screen animation
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Built With
 
-- **Flutter**
-- **Dart**
-- **AudioPlayers**
-- **Google Fonts**
-- **Lottie**
-- **Material Design**
+| Technology       | Purpose                        |
+| ---------------- | ------------------------------ |
+| **Flutter**      | UI and application development |
+| **Dart**         | Programming language           |
+| **AudioPlayers** | Audio playback                 |
+| **Google Fonts** | Custom typography              |
+| **Lottie**       | Splash screen animation        |
 
 ---
 
-## 📦 Packages
+## 📱 Screens
 
-Main packages used in this project:
+### Splash Screen
 
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
+Animated splash screen with the Auralis branding and Lottie animation.
 
-  audioplayers: ^latest
-  google_fonts: ^latest
-  lottie: ^latest
+### Home Screen
 
+Displays featured playlists and available songs. Users can start playing a song directly from the home screen.
+
+### Song Screen
+
+Provides a dedicated music player interface with album artwork, song information, progress control, and playback controls.
+
+---
+
+## 🎧 Audio Architecture
+
+Auralis uses a centralized `AudioController` to handle audio playback.
+
+Instead of creating a separate `AudioPlayer` for every screen, the application uses one shared audio controller to manage:
+
+* Current song
+* Play / pause state
+* Resume
+* Stop
+* Audio completion
+* Song switching
+
+This allows the **Home Screen and Song Screen to work with the same audio player**.
+
+---
+
+## 📂 Project Structure
+
+```text
 lib/
 │
 ├── controllers/
@@ -107,9 +91,188 @@ lib/
 ├── app_background.dart
 │
 └── main.dart
+```
 
-🚀 Getting Started
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd vibes
+### Folder Overview
+
+**`controllers/`**
+Contains application controllers such as the centralized audio controller.
+
+**`model/`**
+Contains data models used by the application, including the `Song` model.
+
+**`screens/`**
+Contains the main application screens.
+
+**`widiget/`**
+Contains reusable UI widgets such as album cards and equalizer animations.
+
+**`app_background.dart`**
+Handles the application's custom background design.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
+```
+
+### 2. Open the project
+
+```bash
+cd auralis
+```
+
+### 3. Install dependencies
+
+```bash
 flutter pub get
+```
+
+### 4. Run the application
+
+```bash
 flutter run
+```
+
+Make sure Flutter is properly installed and configured on your machine.
+
+---
+
+## 📦 Dependencies
+
+The main packages used in this project are:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  audioplayers: ^YOUR_VERSION
+  google_fonts: ^YOUR_VERSION
+  lottie: ^YOUR_VERSION
+```
+
+> The exact package versions are available in `pubspec.yaml`.
+
+---
+
+## 🎵 Adding Songs
+
+Songs are defined using the `Song` model.
+
+Example:
+
+```dart
+const Song(
+  title: 'Song Name',
+  artist: 'Artist Name',
+  songPath: 'assets/songs/song.mp3',
+  imagePath: 'assets/images/song.jpg',
+);
+```
+
+The audio and image files should be added to the appropriate asset directories and registered in `pubspec.yaml`.
+
+Example:
+
+```yaml
+flutter:
+  assets:
+    - assets/songs/
+    - assets/images/
+    - assets/splash.json
+```
+
+---
+
+## 🧠 What I Learned
+
+Building Auralis helped me understand several important Flutter concepts:
+
+* Working with Flutter layouts and reusable widgets
+* Building custom UI components
+* Using `ListView.builder` with models
+* Handling navigation between screens
+* Working with local assets
+* Implementing audio playback with `audioplayers`
+* Managing play/pause state
+* Sharing an audio controller between screens
+* Working with animations
+* Creating custom dark-themed interfaces
+* Debugging Flutter rendering and state-related issues
+
+---
+
+## 🔮 Future Improvements
+
+Some features I would like to add in future versions:
+
+* 🔊 Volume control
+* 🔀 Shuffle mode
+* 🔁 Repeat mode
+* ❤️ Favorite songs
+* 📋 Playlist creation
+* 🔍 Search functionality
+* 💾 Persistent playback state
+* 🎼 Lyrics support
+* 🎚️ Better audio progress synchronization
+* 🌐 Online music streaming
+
+---
+
+## 📸 Screenshots
+
+Add your application screenshots here:
+
+```text
+screenshots/
+├── splash_screen.png
+├── home_screen.png
+└── song_screen.png
+```
+
+You can display them in the README using:
+
+```markdown
+![Splash Screen](screenshots/splash_screen.png)
+![Home Screen](screenshots/home_screen.png)
+![Song Screen](screenshots/song_screen.png)
+```
+
+---
+
+## 🎥 Demo
+
+Add your screen recording or demo video link here.
+
+**Auralis Music Player Demo:**
+YOUR_DEMO_LINK
+
+---
+
+## 👨‍💻 Developer
+
+**Abdul Basit**
+
+Flutter Developer | Mobile Application Development
+
+I'm currently focused on improving my Flutter and Dart skills by building real-world mobile applications.
+
+---
+
+## ⭐ Support
+
+If you found this project useful or interesting, consider giving the repository a ⭐.
+
+Feedback and suggestions are always welcome.
+
+---
+
+## 📄 License
+
+This project is created for learning and portfolio purposes.
+
+Please make sure you have the appropriate rights to use any music, images, or other third-party assets included in the project.
