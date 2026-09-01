@@ -25,22 +25,26 @@ class AuthState {
   final AuthStatus status;
   final UserModel? user;
   final String? errorMessage;
+  final bool hasSeenOnboarding;
 
   const AuthState({
     this.status = AuthStatus.unauthenticated,
     this.user,
     this.errorMessage,
+    this.hasSeenOnboarding = false,
   });
 
   AuthState copyWith({
     AuthStatus? status,
     UserModel? user,
     String? errorMessage,
+    bool? hasSeenOnboarding,
   }) {
     return AuthState(
       status: status ?? this.status,
       user: user ?? this.user,
       errorMessage: errorMessage,
+      hasSeenOnboarding: hasSeenOnboarding ?? this.hasSeenOnboarding,
     );
   }
 }
@@ -58,18 +62,33 @@ class AuthController extends StateNotifier<AuthState> {
   static const _userKey = 'auralis_logged_in';
   static const _userNameKey = 'auralis_user_name';
   static const _userEmailKey = 'auralis_user_email';
+  static const _onboardingSeenKey = 'auralis_onboarding_seen';
 
   Future<void> _checkSavedSession() async {
     final prefs = await SharedPreferences.getInstance();
     final isLoggedIn = prefs.getBool(_userKey) ?? false;
+    final hasSeenOnboarding = prefs.getBool(_onboardingSeenKey) ?? false;
+
     if (isLoggedIn) {
       final name = prefs.getString(_userNameKey) ?? 'Basit';
       final email = prefs.getString(_userEmailKey) ?? 'basit@auralis.app';
       state = AuthState(
         status: AuthStatus.authenticated,
+        hasSeenOnboarding: true,
         user: UserModel(uid: 'user_local_1', email: email, displayName: name),
       );
+    } else {
+      state = AuthState(
+        status: AuthStatus.unauthenticated,
+        hasSeenOnboarding: hasSeenOnboarding,
+      );
     }
+  }
+
+  Future<void> completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_onboardingSeenKey, true);
+    state = state.copyWith(hasSeenOnboarding: true);
   }
 
   Future<bool> login(String email, String password) async {
@@ -97,10 +116,15 @@ class AuthController extends StateNotifier<AuthState> {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_userKey, true);
+    await prefs.setBool(_onboardingSeenKey, true);
     await prefs.setString(_userNameKey, user.displayName);
     await prefs.setString(_userEmailKey, user.email);
 
-    state = AuthState(status: AuthStatus.authenticated, user: user);
+    state = AuthState(
+      status: AuthStatus.authenticated,
+      hasSeenOnboarding: true,
+      user: user,
+    );
     return true;
   }
 
@@ -124,16 +148,24 @@ class AuthController extends StateNotifier<AuthState> {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_userKey, true);
+    await prefs.setBool(_onboardingSeenKey, true);
     await prefs.setString(_userNameKey, user.displayName);
     await prefs.setString(_userEmailKey, user.email);
 
-    state = AuthState(status: AuthStatus.authenticated, user: user);
+    state = AuthState(
+      status: AuthStatus.authenticated,
+      hasSeenOnboarding: true,
+      user: user,
+    );
     return true;
   }
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_userKey);
-    state = const AuthState(status: AuthStatus.unauthenticated);
+    state = const AuthState(
+      status: AuthStatus.unauthenticated,
+      hasSeenOnboarding: true,
+    );
   }
 }

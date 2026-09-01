@@ -34,52 +34,17 @@ class AppTheme {
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent,
         selectedItemColor: AppColors.neonCyan,
-        unselectedItemColor: AppColors.textMuted,
+        unselectedItemColor: Color(0xFF9E9EBA),
         elevation: 0,
         type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+        unselectedLabelStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
       ),
       sliderTheme: SliderThemeData(
         activeTrackColor: AppColors.neonCyan,
         inactiveTrackColor: AppColors.borderSubtle,
         thumbColor: Colors.white,
         overlayColor: AppColors.neonCyan.withValues(alpha: 0.2),
-        trackHeight: 3.5,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-      ),
-    );
-  }
-
-  static ThemeData get lightTheme {
-    return ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      scaffoldBackgroundColor: AppColors.lightBackground,
-      primaryColor: AppColors.electricViolet,
-      colorScheme: const ColorScheme.light(
-        primary: AppColors.electricViolet,
-        secondary: AppColors.softCyan,
-        tertiary: AppColors.cyberMagenta,
-        surface: AppColors.lightSurface,
-        surfaceContainerHighest: AppColors.lightSurfaceElevated,
-        onPrimary: Colors.white,
-        onSecondary: Colors.white,
-        onSurface: AppColors.lightTextPrimary,
-      ),
-      textTheme: GoogleFonts.plusJakartaSansTextTheme(
-        ThemeData.light().textTheme,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: AppColors.lightTextPrimary),
-      ),
-      sliderTheme: SliderThemeData(
-        activeTrackColor: AppColors.electricViolet,
-        inactiveTrackColor: AppColors.lightBorder,
-        thumbColor: AppColors.electricViolet,
-        overlayColor: AppColors.electricViolet.withValues(alpha: 0.2),
         trackHeight: 3.5,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
       ),

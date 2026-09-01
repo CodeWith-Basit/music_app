@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:music_app/core/constants/app_colors.dart';
 
@@ -18,7 +17,7 @@ class GlassContainer extends StatelessWidget {
   const GlassContainer({
     super.key,
     required this.child,
-    this.blur = 16.0,
+    this.blur = 0.0,
     this.opacity = 0.08,
     this.color,
     this.borderRadius,
@@ -38,39 +37,36 @@ class GlassContainer extends StatelessWidget {
       height: height,
       margin: margin,
       decoration: BoxDecoration(
+        color: color ?? const Color(0xFF161626),
+        gradient: gradient ??
+            LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                const Color(0xFF1E1E34),
+                const Color(0xFF131322),
+              ],
+            ),
         borderRadius: effectiveRadius,
+        border: border ??
+            Border.all(
+              color: AppColors.darkGlassBorder,
+              width: 1,
+            ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: ClipRRect(
         borderRadius: effectiveRadius,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-          child: Container(
-            padding: padding,
-            decoration: BoxDecoration(
-              color: color ?? Colors.white.withValues(alpha: opacity),
-              gradient: gradient ??
-                  LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.white.withValues(alpha: (opacity + 0.06).clamp(0.0, 1.0)),
-                      Colors.white.withValues(alpha: opacity),
-                    ],
-                  ),
-              borderRadius: effectiveRadius,
-              border: border ??
-                  Border.all(
-                    color: AppColors.darkGlassBorder,
-                    width: 1,
-                  ),
-            ),
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
             child: child,
           ),
         ),

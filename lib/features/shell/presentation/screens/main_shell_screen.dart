@@ -40,52 +40,59 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
             children: _screens,
           ),
 
-          // Floating Mini Player and Bottom Navigation
+          // Floating Mini Player and Compact Bottom Navigation
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const MiniPlayer(),
-                // Floating Bottom Bar Container
-                Container(
-                  margin: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-                  child: GlassContainer(
-                    borderRadius: BorderRadius.circular(24),
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    blur: 24,
-                    opacity: isDark ? 0.3 : 0.8,
-                    color: isDark ? const Color(0xFF131322) : Colors.white,
-                    border: Border.all(
-                      color: isDark ? AppColors.darkGlassBorder : AppColors.lightBorder,
-                    ),
-                    child: BottomNavigationBar(
-                      currentIndex: _currentIndex,
-                      onTap: (idx) => setState(() => _currentIndex = idx),
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.home_filled),
-                          label: 'Home',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.search_rounded),
-                          label: 'Search',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.library_music_rounded),
-                          label: 'Library',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.person_rounded),
-                          label: 'Profile',
-                        ),
-                      ],
+            child: SafeArea(
+              top: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const MiniPlayer(),
+                  // Sleek Compact Floating Bottom Bar Container
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(16, 2, 16, 8),
+                    child: GlassContainer(
+                      borderRadius: BorderRadius.circular(20),
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      blur: 28,
+                      opacity: isDark ? 0.45 : 0.88,
+                      color: isDark ? const Color(0xFF141428) : const Color(0xFFFFFFFF),
+                      border: Border.all(
+                        color: isDark ? AppColors.darkGlassBorder : const Color(0xFFCBD5E1),
+                        width: 1.2,
+                      ),
+                      child: BottomNavigationBar(
+                        currentIndex: _currentIndex,
+                        onTap: (idx) => setState(() => _currentIndex = idx),
+                        selectedItemColor: isDark ? AppColors.neonCyan : AppColors.electricViolet,
+                        unselectedItemColor: isDark ? const Color(0xFF9E9EBA) : const Color(0xFF64748B),
+                        iconSize: 22,
+                        items: const [
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.home_filled),
+                            label: 'Home',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.search_rounded),
+                            label: 'Search',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.library_music_rounded),
+                            label: 'Library',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.person_rounded),
+                            label: 'Profile',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

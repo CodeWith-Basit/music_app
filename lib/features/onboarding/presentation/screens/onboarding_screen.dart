@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/constants/app_colors.dart';
 import 'package:music_app/core/constants/app_typography.dart';
 import 'package:music_app/shared/widgets/common_widgets.dart';
+import 'package:music_app/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:music_app/features/auth/presentation/screens/login_screen.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -51,11 +53,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _navigateToLogin() {
+    ref.read(authControllerProvider.notifier).completeOnboarding();
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 600),
-        pageBuilder: (_, _, _) => const LoginScreen(),
-        transitionsBuilder: (_, animation, _, child) {
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const LoginScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
       ),
@@ -98,7 +102,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 // Top Bar with Skip
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -115,7 +120,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           const SizedBox(width: 8),
                           Text(
                             'AURALIS',
-                            style: AppTypography.songTitle(color: Colors.white).copyWith(
+                            style: AppTypography.songTitle(color: Colors.white)
+                                .copyWith(
                               letterSpacing: 2.5,
                               fontSize: 14,
                               fontWeight: FontWeight.w800,
@@ -127,7 +133,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onPressed: _navigateToLogin,
                         child: Text(
                           'Skip',
-                          style: AppTypography.metadata(color: AppColors.textSecondary)
+                          style: AppTypography.metadata(
+                                  color: AppColors.textSecondary)
                               .copyWith(fontSize: 14),
                         ),
                       ),
@@ -156,7 +163,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 borderRadius: BorderRadius.circular(28),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.electricViolet.withValues(alpha: 0.35),
+                                    color: AppColors.electricViolet
+                                        .withValues(alpha: 0.35),
                                     blurRadius: 30,
                                     offset: const Offset(0, 14),
                                   ),
@@ -189,7 +197,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                             end: Alignment.bottomCenter,
                                             colors: [
                                               Colors.transparent,
-                                              Colors.black.withValues(alpha: 0.65),
+                                              Colors.black
+                                                  .withValues(alpha: 0.65),
                                             ],
                                           ),
                                         ),
@@ -203,10 +212,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12, vertical: 6),
                                         decoration: BoxDecoration(
-                                          color: Colors.black.withValues(alpha: 0.6),
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.black
+                                              .withValues(alpha: 0.6),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           border: Border.all(
-                                            color: AppColors.neonCyan.withValues(alpha: 0.5),
+                                            color: AppColors.neonCyan
+                                                .withValues(alpha: 0.5),
                                           ),
                                         ),
                                         child: Text(

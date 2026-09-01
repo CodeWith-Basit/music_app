@@ -12,62 +12,20 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsState = ref.watch(settingsControllerProvider);
     final settingsNotifier = ref.read(settingsControllerProvider.notifier);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
         title: Text(
           'Settings & Audio',
           style: AppTypography.screenTitle(
-            color: isDark ? AppColors.textPrimary : AppColors.lightTextPrimary,
+            color: AppColors.textPrimary,
           ),
         ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Section: Appearance
-          Text(
-            'APPEARANCE',
-            style: AppTypography.metadata(color: AppColors.softCyan).copyWith(
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-            ),
-          ),
-          const SizedBox(height: 10),
-          GlassContainer(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      settingsState.isDarkMode
-                          ? Icons.dark_mode_rounded
-                          : Icons.light_mode_rounded,
-                      color: AppColors.electricViolet,
-                    ),
-                    const SizedBox(width: 14),
-                    Text(
-                      'Dark Atmosphere',
-                      style: AppTypography.songTitle(
-                        color: isDark ? AppColors.textPrimary : AppColors.lightTextPrimary,
-                      ).copyWith(fontSize: 15),
-                    ),
-                  ],
-                ),
-                Switch(
-                  activeThumbColor: AppColors.neonCyan,
-                  value: settingsState.isDarkMode,
-                  onChanged: (_) => settingsNotifier.toggleTheme(),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-
           // Section: Audio Quality & Engine
           Text(
             'AUDIO ENGINE & QUALITY',
@@ -88,7 +46,7 @@ class SettingsScreen extends ConsumerWidget {
                     Text(
                       'Streaming Fidelity',
                       style: AppTypography.songTitle(
-                        color: isDark ? AppColors.textPrimary : AppColors.lightTextPrimary,
+                        color: AppColors.textPrimary,
                       ).copyWith(fontSize: 15),
                     ),
                     DropdownButton<String>(
@@ -126,7 +84,7 @@ class SettingsScreen extends ConsumerWidget {
                         Text(
                           'Spatial Audio Simulation',
                           style: AppTypography.songTitle(
-                            color: isDark ? AppColors.textPrimary : AppColors.lightTextPrimary,
+                            color: AppColors.textPrimary,
                           ).copyWith(fontSize: 15),
                         ),
                         Text(
@@ -152,7 +110,7 @@ class SettingsScreen extends ConsumerWidget {
                         Text(
                           'Gapless Crossfade',
                           style: AppTypography.songTitle(
-                            color: isDark ? AppColors.textPrimary : AppColors.lightTextPrimary,
+                            color: AppColors.textPrimary,
                           ).copyWith(fontSize: 15),
                         ),
                         Text(
@@ -190,7 +148,7 @@ class SettingsScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Version', style: AppTypography.bodyText(color: isDark ? Colors.white : AppColors.lightTextPrimary)),
+                    Text('Version', style: AppTypography.bodyText(color: Colors.white)),
                     Text('1.0.0 (Build 2026.1)', style: AppTypography.metadata(color: AppColors.neonCyan)),
                   ],
                 ),

@@ -62,6 +62,11 @@ final audioPlayerServiceProvider = Provider<AudioPlayerService>((ref) {
   return service;
 });
 
+final playerPositionStreamProvider = StreamProvider.autoDispose<Duration>((ref) {
+  final audioService = ref.watch(audioPlayerServiceProvider);
+  return audioService.positionStream;
+});
+
 final playerControllerProvider =
     StateNotifierProvider<PlayerController, PlaybackState>((ref) {
   final audioService = ref.watch(audioPlayerServiceProvider);
@@ -71,21 +76,27 @@ final playerControllerProvider =
 class PlayerController extends StateNotifier<PlaybackState> {
   final AudioPlayerService _audioService;
   List<SongModel> _originalQueue = [];
+  DateTime _lastPositionUpdate = DateTime.now();
 
   PlayerController(this._audioService) : super(const PlaybackState()) {
     _init();
   }
 
   void _init() {
-    _audioService.playerStateStream.listen((state) {
-      this.state = this.state.copyWith(
-            isPlaying: state == PlayerState.playing,
-            isLoading: state == PlayerState.disposed,
-          );
+    _audioService.playerStateStream.listen((playerState) {
+      state = state.copyWith(
+        isPlaying: playerState == PlayerState.playing,
+        isLoading: playerState == PlayerState.disposed,
+      );
     });
 
+    // Throttle position updates in the main state to prevent 60fps full-tree rebuilds
     _audioService.positionStream.listen((pos) {
-      state = state.copyWith(position: pos);
+      final now = DateTime.now();
+      if (now.difference(_lastPositionUpdate).inMilliseconds >= 350) {
+        _lastPositionUpdate = now;
+        state = state.copyWith(position: pos);
+      }
     });
 
     _audioService.durationStream.listen((dur) {
@@ -146,6 +157,7 @@ class PlayerController extends StateNotifier<PlaybackState> {
   }
 
   Future<void> seek(Duration position) async {
+    state = state.copyWith(position: position);
     await _audioService.seek(position);
   }
 

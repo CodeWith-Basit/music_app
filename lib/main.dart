@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
-import 'features/profile/presentation/controllers/settings_controller.dart';
 import 'features/splash/presentation/screens/splash_screen.dart';
 
 void main() {
@@ -19,19 +18,17 @@ void main() {
   );
 }
 
-class AuralisApp extends ConsumerWidget {
+class AuralisApp extends StatelessWidget {
   const AuralisApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settingsState = ref.watch(settingsControllerProvider);
-
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Auralis',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.darkTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: settingsState.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ThemeMode.dark,
       home: const SplashScreen(),
     );
   }
