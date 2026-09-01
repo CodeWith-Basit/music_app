@@ -1,8 +1,32 @@
 # 🎧 Auralis — Flutter Music Player
 
-Auralis is a modern music player application built with **Flutter and Dart**. The project focuses on creating a clean music-listening experience with custom UI, local audio playback, smooth interactions, and reusable Flutter components.
+Auralis is a modern music player application built with **Flutter and Dart**. It provides a clean music-listening experience with local audio playback, custom UI, animations, album artwork, and a centralized audio controller shared across screens.
 
-I built this project to improve my understanding of **Flutter UI development, audio playback, state management, navigation, animations, and reusable architecture**.
+This project was built as a hands-on Flutter project to improve my understanding of **UI development, navigation, audio playback, state handling, reusable widgets, and animations**.
+
+---
+
+## 📱 Screenshots
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/Screenshot/splash_screen.jpeg" width="200"/>
+      <br />
+      <b>Splash Screen</b>
+    </td>
+    <td align="center">
+      <img src="assets/Screenshot/home_screen.jpeg" width="200"/>
+      <br />
+      <b>Home Screen</b>
+    </td>
+    <td align="center">
+      <img src="assets/Screenshot/song_screen.jpeg" width="200"/>
+      <br />
+      <b>Song Screen</b>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -13,58 +37,46 @@ I built this project to improve my understanding of **Flutter UI development, au
 * ⏭️ Next and previous song controls
 * 🎚️ Music progress slider
 * 🎨 Modern dark-themed UI
-* 🖼️ Album artwork support
+* 🖼️ Album artwork
 * ✨ Animated UI elements
 * 🎧 Centralized audio controller
-* 🔄 Audio controller shared between screens
-* 📱 Clean and responsive interface
-* ⚡ Smooth screen navigation
-* 💫 Lottie splash screen animation
+* 🔄 Shared audio controller between screens
+* 📱 Responsive Flutter UI
+* 💫 Lottie animated splash screen
+* ⚡ Smooth navigation between screens
+* 🎶 Play songs directly from the Home Screen
 
 ---
 
-## 🛠️ Built With
+## 🛠️ Technologies & Packages
 
-| Technology       | Purpose                        |
-| ---------------- | ------------------------------ |
-| **Flutter**      | UI and application development |
-| **Dart**         | Programming language           |
-| **AudioPlayers** | Audio playback                 |
-| **Google Fonts** | Custom typography              |
-| **Lottie**       | Splash screen animation        |
-
----
-
-## 📱 Screens
-
-### Splash Screen
-
-Animated splash screen with the Auralis branding and Lottie animation.
-
-### Home Screen
-
-Displays featured playlists and available songs. Users can start playing a song directly from the home screen.
-
-### Song Screen
-
-Provides a dedicated music player interface with album artwork, song information, progress control, and playback controls.
+| Technology   | Usage                   |
+| ------------ | ----------------------- |
+| Flutter      | Application development |
+| Dart         | Programming language    |
+| AudioPlayers | Audio playback          |
+| Google Fonts | Custom typography       |
+| Lottie       | Splash screen animation |
 
 ---
 
-## 🎧 Audio Architecture
+## 🎧 Audio Controller
 
-Auralis uses a centralized `AudioController` to handle audio playback.
+Auralis uses a centralized `AudioController` instead of creating separate audio players for each screen.
 
-Instead of creating a separate `AudioPlayer` for every screen, the application uses one shared audio controller to manage:
+The controller is responsible for:
 
-* Current song
-* Play / pause state
-* Resume
-* Stop
-* Audio completion
-* Song switching
+* Playing songs
+* Pausing songs
+* Resuming songs
+* Stopping songs
+* Tracking the current song
+* Tracking playback state
+* Detecting when a song finishes
 
-This allows the **Home Screen and Song Screen to work with the same audio player**.
+The same `AudioController` is shared between the **Home Screen** and **Song Screen**.
+
+This prevents multiple audio players from running independently and allows the user to control the same currently playing song from different parts of the application.
 
 ---
 
@@ -93,77 +105,124 @@ lib/
 └── main.dart
 ```
 
-### Folder Overview
+### Folder Explanation
 
-**`controllers/`**
-Contains application controllers such as the centralized audio controller.
+#### `controllers/`
 
-**`model/`**
-Contains data models used by the application, including the `Song` model.
+Contains application controllers.
 
-**`screens/`**
+```text
+audio_controller.dart
+```
+
+Handles the application's audio playback.
+
+#### `model/`
+
+Contains data models.
+
+```text
+song_model.dart
+```
+
+Defines the `Song` model and the song list used by the application.
+
+#### `screens/`
+
 Contains the main application screens.
 
-**`widiget/`**
-Contains reusable UI widgets such as album cards and equalizer animations.
+```text
+splash_screen.dart
+home_screen.dart
+song_screen.dart
+```
 
-**`app_background.dart`**
-Handles the application's custom background design.
+#### `widiget/`
+
+Contains reusable UI components such as:
+
+* Album widgets
+* Equalizer animation
+
+> Note: The folder is currently named `widiget` in the project.
+
+#### `app_background.dart`
+
+Contains the reusable application background UI.
+
+#### `main.dart`
+
+The entry point of the Flutter application.
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+### Prerequisites
+
+Make sure you have installed:
+
+* Flutter SDK
+* Dart SDK
+* Android Studio or VS Code
+* An Android emulator or physical device
+
+Check your Flutter installation:
+
+```bash
+flutter doctor
+```
+
+---
+
+### 1. Clone the Repository
 
 ```bash
 git clone YOUR_GITHUB_REPOSITORY_URL
 ```
 
-### 2. Open the project
+### 2. Open the Project
 
 ```bash
 cd auralis
 ```
 
-### 3. Install dependencies
+### 3. Install Dependencies
 
 ```bash
 flutter pub get
 ```
 
-### 4. Run the application
+### 4. Run the Application
 
 ```bash
 flutter run
 ```
 
-Make sure Flutter is properly installed and configured on your machine.
-
 ---
 
-## 📦 Dependencies
+## 🎵 Adding Music
 
-The main packages used in this project are:
+Songs are stored as local assets.
 
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  audioplayers: ^YOUR_VERSION
-  google_fonts: ^YOUR_VERSION
-  lottie: ^YOUR_VERSION
+Example project structure:
+
+```text
+assets/
+├── images/
+│   ├── album_1.jpg
+│   ├── album_2.jpg
+│   └── ...
+│
+├── songs/
+│   ├── song_1.mp3
+│   ├── song_2.mp3
+│   └── ...
+│
+└── splash.json
 ```
 
-> The exact package versions are available in `pubspec.yaml`.
-
----
-
-## 🎵 Adding Songs
-
-Songs are defined using the `Song` model.
-
-Example:
+A song can be added to the `songList` using the `Song` model:
 
 ```dart
 const Song(
@@ -174,7 +233,7 @@ const Song(
 );
 ```
 
-The audio and image files should be added to the appropriate asset directories and registered in `pubspec.yaml`.
+Make sure the assets are registered inside `pubspec.yaml`.
 
 Example:
 
@@ -186,93 +245,109 @@ flutter:
     - assets/splash.json
 ```
 
+Then run:
+
+```bash
+flutter pub get
+```
+
+---
+
+## 🎼 How Audio Playback Works
+
+The application uses the `audioplayers` package for local audio playback.
+
+The basic flow is:
+
+```text
+User selects song
+       ↓
+Home Screen / Song Screen
+       ↓
+AudioController
+       ↓
+AudioPlayer
+       ↓
+Local MP3 Asset
+       ↓
+Music Playback
+```
+
+When another song is selected, the controller starts the new song using the same `AudioPlayer`.
+
 ---
 
 ## 🧠 What I Learned
 
 Building Auralis helped me understand several important Flutter concepts:
 
-* Working with Flutter layouts and reusable widgets
+* Flutter widget composition
+* Stateful widgets
+* `setState()`
+* `ListView.builder`
+* Passing data between screens
+* Navigation using `Navigator`
+* Local asset management
+* Audio playback with `audioplayers`
+* Creating reusable widgets
 * Building custom UI components
-* Using `ListView.builder` with models
-* Handling navigation between screens
-* Working with local assets
-* Implementing audio playback with `audioplayers`
-* Managing play/pause state
-* Sharing an audio controller between screens
+* Managing audio state
+* Sharing a controller between screens
 * Working with animations
-* Creating custom dark-themed interfaces
-* Debugging Flutter rendering and state-related issues
+* Lottie animations
+* Custom gradients and shadows
+* Debugging Flutter rendering issues
+
+One of the most important parts of this project was learning how to use a **single audio controller across multiple screens** rather than creating separate audio players.
 
 ---
 
 ## 🔮 Future Improvements
 
-Some features I would like to add in future versions:
+Possible improvements for future versions include:
 
-* 🔊 Volume control
 * 🔀 Shuffle mode
 * 🔁 Repeat mode
 * ❤️ Favorite songs
-* 📋 Playlist creation
-* 🔍 Search functionality
-* 💾 Persistent playback state
+* 📋 Custom playlists
+* 🔍 Song search
+* 🔊 Volume control
 * 🎼 Lyrics support
-* 🎚️ Better audio progress synchronization
+* 💾 Persistent playback state
 * 🌐 Online music streaming
-
----
-
-## 📸 Screenshots
-
-Add your application screenshots here:
-
-```text
-screenshots/
-├── splash_screen.png
-├── home_screen.png
-└── song_screen.png
-```
-
-You can display them in the README using:
-
-```markdown
-![Splash Screen](screenshots/splash_screen.png)
-![Home Screen](screenshots/home_screen.png)
-![Song Screen](screenshots/song_screen.png)
-```
-
----
-
-## 🎥 Demo
-
-Add your screen recording or demo video link here.
-
-**Auralis Music Player Demo:**
-YOUR_DEMO_LINK
+* 🔔 Background audio playback
+* 🎧 Lock-screen media controls
 
 ---
 
 ## 👨‍💻 Developer
 
-**Abdul Basit**
+### Abdul Basit
 
-Flutter Developer | Mobile Application Development
+Flutter Developer focused on building mobile applications with Flutter and Dart.
 
-I'm currently focused on improving my Flutter and Dart skills by building real-world mobile applications.
+I'm continuously improving my development skills by building real-world applications and experimenting with different Flutter concepts.
 
 ---
 
 ## ⭐ Support
 
-If you found this project useful or interesting, consider giving the repository a ⭐.
+If you like the project or find it useful, consider giving the repository a ⭐.
 
-Feedback and suggestions are always welcome.
+Feedback, suggestions, and improvements are welcome.
 
 ---
 
 ## 📄 License
 
-This project is created for learning and portfolio purposes.
+This project was created for **learning and portfolio purposes**.
 
-Please make sure you have the appropriate rights to use any music, images, or other third-party assets included in the project.
+The music files, images, fonts, animations, and other third-party assets may belong to their respective owners. Make sure you have the necessary rights or permissions before distributing copyrighted assets.
+
+---
+
+## 📌 Project Status
+
+**Status:** Completed ✅
+
+Auralis is currently a completed learning/portfolio project, with additional features planned for future versions.
